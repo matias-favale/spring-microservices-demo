@@ -1,5 +1,6 @@
 package com.belatrix.meetup.catalogservice.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 public class Catalog {
 
     private List<Category> categoriesData;
-    private Map<Long, CatalogCategory> categories;
+    private Map<Long, CatalogCategory> categories = new HashMap<>();
 
     public Catalog() {
     }

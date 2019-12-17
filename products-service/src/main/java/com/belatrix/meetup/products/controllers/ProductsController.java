@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * @author Matias Favale.
@@ -19,18 +19,38 @@ public class ProductsController {
 
     @GetMapping
     public ProductsList list() {
-        return new ProductsList(Collections.singletonList(new Product("CODE1234", "PRODNAME", 100f, 1L)));
+        return mockedList();
     }
 
     @GetMapping("/{code}")
     public Product getProduct(@PathVariable("code") String code) {
-        return new Product("codecode", "namename", 50f, 2L);
+        return mockedList()
+                .getProducts()
+                .stream()
+                .filter(p -> p.getCode().equals(code))
+                .findFirst()
+                .get();
     }
 
     @GetMapping("/by_category/{categoryId}")
     public ProductsList productsInCategory(@PathVariable("categoryId") Long categoryId) {
+        ProductsList byCat = mockedList();
+        byCat.setProducts(byCat.getProducts()
+                .stream()
+                .filter(product -> product.getCategoryId().equals(categoryId))
+                .collect(Collectors.toList())
+        );
+        return byCat;
+    }
+
+    private ProductsList mockedList() {
         return new ProductsList(Arrays.asList(
-                new Product("1234", "PRODNAME", 100f, categoryId),
-                new Product("5678", "PRODNAME2", 200f, categoryId)));
+                new Product("1", "Somsang Golaxy S10", 60000f, 1L),
+                new Product("2", "Pineapple PhoneI XS", 200000f, 1L),
+                new Product("3", "Aire Acondicionado Inverter", 20000f, 2L),
+                new Product("4", "Cortina de baño", 200f, 2L),
+                new Product("5", "Remera", 400f, 3L),
+                new Product("6", "Pantalon Jean Lovis", 4000f, 3L)
+        ));
     }
 }

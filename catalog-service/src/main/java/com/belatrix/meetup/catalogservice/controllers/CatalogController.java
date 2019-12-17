@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-
 /**
  * @author Matias Favale.
  */
@@ -28,11 +26,12 @@ public class CatalogController {
 
     @GetMapping
     public Catalog getCatalog() {
+        // Get all categories with their data
         CategoriesList categoriesList = categoryService.getCategories();
         Catalog catalog = new Catalog();
         catalog.setCategoriesData(categoriesList.getCategories());
 
-        catalog.setCategories(new HashMap<>());
+        // Populate products by category list
         categoriesList.getCategories()
                 .forEach(c -> {
                     ProductsList productsList = productsService.getProducts(c.getId());

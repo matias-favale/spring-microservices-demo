@@ -17,7 +17,8 @@ public class CategoriesController {
     @GetMapping
     public CategoriesList list() {
         return new CategoriesList(Arrays.asList(
-            new Category(1L, "Electro"),
-            new Category(2L, "lala")));
+            new Category(1L, "Tecnologia"),
+            new Category(2L, "Hogar y Electrodomesticos"),
+            new Category(3L, "Moda")));
     }
 }
