@@ -23,14 +23,14 @@ public class CatalogController {
     @GetMapping
     public Catalog getCatalog() {
         // Get all categories with their data
-        CategoriesList categoriesList = restTemplate.getForObject("http://localhost:9002/categories", CategoriesList.class);
+        CategoriesList categoriesList = restTemplate.getForObject("http://categories-service/categories", CategoriesList.class);
         Catalog catalog = new Catalog();
         catalog.setCategoriesData(categoriesList.getCategories());
 
         // Populate products by category list
         categoriesList.getCategories()
                 .forEach(c -> {
-                    ProductsList productsList = restTemplate.getForObject("http://localhost:9001/products/by_category/" + c.getId(), ProductsList.class);
+                    ProductsList productsList = restTemplate.getForObject("http://products-service/products/by_category/" + c.getId(), ProductsList.class);
                     catalog.getCategories().put(c.getId(), new CatalogCategory(productsList.getProducts()));
                 });
         return catalog;
